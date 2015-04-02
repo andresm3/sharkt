@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * Created by ANDRES on 27/03/2015.
@@ -87,7 +89,23 @@ public class BurningFragment extends Fragment{
         outState.putBoolean("toggleButton", toggleButton);
     }
 
-    public void actualizarCronometro(double tiempo) {
-        chronoText.setText(String.format("%.2f", tiempo) + "s");
+    public void actualizarCronometro(long tiempo) {
+
+/*        chronoText.setText(String.format("%02d:%02d:%02d",
+                TimeUnit.MILLISECONDS.toHours(tiempo),
+                TimeUnit.MILLISECONDS.toMinutes(tiempo) -
+                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(tiempo)),
+                TimeUnit.MILLISECONDS.toSeconds(tiempo) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(tiempo))));*/
+
+        long hours = (tiempo>3600)?(tiempo / 3600):0;
+
+        long minutes = (tiempo>60)?(tiempo % 3600) / 60:0;
+
+        long seconds = tiempo % 60;
+
+        chronoText.setText(String.format("%02d:%02d:%02d",hours, minutes, seconds));
+
+//        chronoText.setText(String.format("%02d", tiempo));
     }
 }

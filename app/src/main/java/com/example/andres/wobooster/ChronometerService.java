@@ -15,7 +15,7 @@ import java.util.TimerTask;
 public class ChronometerService extends Service {
 
     private Timer temporizador = new Timer();
-    private static final long INTERVALO_ACTUALIZACION = 1000; // En ms
+    private static final long INTERVALO_ACTUALIZACION = 10; // En ms
     public static BurningFragment UPDATE_LISTENER;
     private double cronometro = 0;
     private Handler handler;
@@ -37,7 +37,7 @@ public class ChronometerService extends Service {
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                UPDATE_LISTENER.actualizarCronometro(cronometro);
+                UPDATE_LISTENER.actualizarCronometro(Math.round(cronometro));
             }
         };
     }
