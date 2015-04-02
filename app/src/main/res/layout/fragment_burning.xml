@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/burning_title"
+        android:textSize="30sp"
+        android:textColor="#FFFFFF"
+        android:background="#F10D0D"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="5dp"/>
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
+        android:layout_margin="10dp"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:textOn="@string/stop"
+        android:textOff="@string/start"
+        android:id="@+id/burn_toggle_btn"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.75"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:text="00:00"
+        android:textSize="100sp"
+        android:textColor="#FFFFFF"
+        android:id="@+id/burn_chrono_txt"
+        />
+
+</LinearLayout>

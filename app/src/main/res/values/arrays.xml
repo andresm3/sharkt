@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="gender_list">
+        <item>@string/male</item>
+        <item>@string/female</item>
+    </string-array>
+
+    <string-array name="pref_wunits_options">
+        <item>@string/label_kilos</item>
+        <item>@string/label_pounds</item>
+    </string-array>
+    <string-array name="pref_wunits_values">
+        <item>@string/pref_wunit_kilos</item>
+        <item>@string/pref_wunit_pounds</item>
+    </string-array>
+
+    <string-array name="pref_hunits_options">
+        <item>@string/label_centimeter</item>
+        <item>@string/label_feet</item>
+    </string-array>
+    <string-array name="pref_hunits_values">
+        <item>@string/pref_hunit_centimeter</item>
+        <item>@string/pref_hunit_feet</item>
+    </string-array>
+</resources>

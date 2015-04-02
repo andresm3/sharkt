@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+    <ListPreference
+        android:title="@string/pref_wunits_label"
+        android:key="@string/pref_wunits_key"
+        android:defaultValue="@string/pref_wunit_kilos"
+        android:entryValues="@array/pref_wunits_values"
+        android:entries="@array/pref_wunits_options" />
+    <ListPreference
+        android:title="@string/pref_hunits_label"
+        android:key="@string/pref_hunits_key"
+        android:defaultValue="@string/pref_hunit_centimeter"
+        android:entryValues="@array/pref_hunits_values"
+        android:entries="@array/pref_hunits_options" />
+
+    <CheckBoxPreference
+        android:title="@string/pref_active_timer_label"
+        android:key="@string/pref_active_timer_key"
+        android:defaultValue="true"
+        android:summary="@string/pref_active_timer_summary" />
+
+    <CheckBoxPreference
+        android:title="@string/pref_active_inclination_label"
+        android:key="@string/pref_active_inclination_key"
+        android:defaultValue="true"
+        android:summary="@string/pref_active_inclination_summary" />
+</PreferenceScreen>

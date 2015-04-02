@@ -1,0 +1,62 @@
+<resources>
+    <string name="app_name">Workout Booster</string>
+
+    <string name="title_section1">Dashboard</string>
+    <string name="title_section2">Personal Data</string>
+    <string name="title_section3">Settings</string>
+
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    <!-- DASHBOARD-->
+    <string name="dashboard_title">Dashboard</string>
+    <string name="burning_mode">Burn Calories</string>
+    <string name="pump_mode">Pump my muscles</string>
+    <string name="white_list">Set up White List</string>
+    <string name="stats">My Stats</string>
+
+    <!-- Personal Info-->
+    <string name="personal_title">My Personal Info</string>
+    <string name="name">Name</string>
+    <string name="age">Age</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="gender">Gender</string>
+    <string name="fitness_level">Fitness Level</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="save_personal_info">Save / Update</string>
+
+    <!-- SETTINGS-->
+    <string name="title_activity_settings" >Settings</string>
+    <string name="pref_wunits_key" >weight_units</string>
+    <string name="pref_wunits_label" >Weight Units</string>
+    <string name="label_kilos">Kilos</string>
+    <string name="label_pounds">Pounds</string>
+    <string name="pref_wunit_kilos">kilos</string>
+    <string name="pref_wunit_pounds">pounds</string>
+
+    <string name="pref_hunits_key" >height_units</string>
+    <string name="pref_hunits_label" >Height Units</string>
+    <string name="label_centimeter">Centimeter</string>
+    <string name="label_feet">Feet</string>
+    <string name="pref_hunit_feet">feets</string>
+    <string name="pref_hunit_centimeter">centimeters</string>
+
+    <string name="pref_active_inclination_key" >inclination_poll</string>
+    <string name="pref_active_inclination_label" >Wake up with inclination move</string>
+    <string name="pref_active_inclination_summary" >Wake up screen when phone is linked on EZ-Holder Shaker</string>
+
+    <string name="pref_active_timer_key" >rep_timer</string>
+    <string name="pref_active_timer_label" >Repetitive Alarm on workouts</string>
+    <string name="pref_active_timer_summary" >Sound a repetitive alarm as a reminder to not loose the focus</string>
+
+    <!-- BURNING MODE-->
+    <string name="burning_title">Burning Cals</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+</resources>
