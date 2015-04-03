@@ -3,7 +3,9 @@ package com.example.andres.wobooster;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.PersistableBundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -29,9 +31,11 @@ public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, DashboardFragment.OnHeadlineSelectedListener {
 
     private final String TAG = this.getClass().getSimpleName();
+    private boolean screen;
     private PersonalFragment mPersonalFragment;
     private DashboardFragment mDashboardFragment;
     private BurningFragment mBurningFragment;
+    private BurningFragment mPumpingFragment;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -56,6 +60,13 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        //Capturar Preferencias de Screen
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        screen = prefs.getBoolean(getString(R.string.pref_active_inclination_key),true);
+
+        Toast.makeText(this,"screen pref is: "+screen, Toast.LENGTH_SHORT).show();
+        //////
     }
 
     @Override
@@ -79,7 +90,9 @@ public class MainActivity extends ActionBarActivity
             case 1:
                 if(mDashboardFragment == null)
                     mDashboardFragment = new DashboardFragment();
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.replace(R.id.container, mDashboardFragment,"Dashboard");
+
                 fragmentTransaction.commit();
                 // execute transaction now
                 getFragmentManager().executePendingTransactions();
@@ -87,7 +100,9 @@ public class MainActivity extends ActionBarActivity
             case 2:
                 if(mPersonalFragment == null)
                     mPersonalFragment = new PersonalFragment();
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.replace(R.id.container, mPersonalFragment,"Personal");
+
                 fragmentTransaction.commit();
                 // execute transaction now
                 getFragmentManager().executePendingTransactions();
@@ -103,15 +118,33 @@ public class MainActivity extends ActionBarActivity
         FragmentTransaction fragmentTransaction =fragmentManager.beginTransaction();
         switch (position+1) {
             case 1:
-                if(mBurningFragment == null)
+                if(mBurningFragment == null){
                     mBurningFragment = new BurningFragment();
+                    Bundle args = new Bundle();
+                    args.putString("title_tag", getResources().getString(R.string.burning_title));
+                    args.putBoolean("screen_inclination",screen);
+                    mBurningFragment.setArguments(args);
+                }
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.replace(R.id.container, mBurningFragment,"Burning");
+
                 fragmentTransaction.commit();
                 // execute transaction now
                 getFragmentManager().executePendingTransactions();
                 break;
             case 2:
-                Toast.makeText(this, "Seleccion: " + position, Toast.LENGTH_SHORT).show();
+                if(mPumpingFragment == null){
+                    mPumpingFragment = new BurningFragment();
+                    Bundle args = new Bundle();
+                    args.putString("title_tag", getResources().getString(R.string.pump_title));
+                    mPumpingFragment.setArguments(args);
+                }
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.replace(R.id.container, mPumpingFragment,"Pumping");
+
+                fragmentTransaction.commit();
+                // execute transaction now
+                getFragmentManager().executePendingTransactions();
                 break;
             case 3:
                 Toast.makeText(this, "Seleccion: " + position, Toast.LENGTH_SHORT).show();

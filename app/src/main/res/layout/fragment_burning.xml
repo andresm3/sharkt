@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     android:background="#000000">
     <TextView
+        android:id="@+id/burn_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/burning_title"
         android:textSize="30sp"
         android:textColor="#FFFFFF"
         android:background="#F10D0D"
@@ -24,16 +24,15 @@
         android:textOn="@string/stop"
         android:textOff="@string/start"
         android:id="@+id/burn_toggle_btn"/>
-    <TextView
+
+    <Chronometer
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.75"
         android:gravity="center_horizontal"
         android:layout_gravity="center_horizontal"
-        android:text="00:00:00"
         android:textSize="80sp"
         android:textColor="#FFFFFF"
-        android:id="@+id/burn_chrono_txt"
-        />
+        android:id="@+id/burn_chrono_chronometer"/>
 
 </LinearLayout>

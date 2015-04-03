@@ -55,8 +55,9 @@
     <string name="pref_active_timer_label" >Repetitive Alarm on workouts</string>
     <string name="pref_active_timer_summary" >Sound a repetitive alarm as a reminder to not loose the focus</string>
 
-    <!-- BURNING MODE-->
-    <string name="burning_title">Burning Cals</string>
+    <!-- WORKOUT MODE-->
+    <string name="burning_title">Burning Calories</string>
+    <string name="pump_title">Pumping Muscles Up</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
 </resources>
