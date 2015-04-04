@@ -30,28 +30,42 @@ import java.util.concurrent.TimeUnit;
  */
 public class BurningFragment extends Fragment{
     private final String TAG = this.getClass().getSimpleName();
-    //private TextView chronoText;
     private String mode;
     private boolean screen_inclination;
+    private boolean rep_timer;
     private Chronometer chronometer;
-    ToggleButton toggle;
-    private boolean toggleButton;
-    private boolean answer;
 
-    private static final int ALARM_ID = 1030;
-    private static final int PERIOD = 500;
-    private PendingIntent pi = null;
-    private AlarmManager mgr = null;
+    //ToggleButton toggle;
+    private boolean toggleButton = false;
+    private Button startButton;
+    private Button stopButton;
+
+    private AlarmManager mAlarmManager;
+    private Intent mNotificationReceiverIntent;
+    private PendingIntent mNotificationReceiverPendingIntent;
+    private static final long INITIAL_ALARM_DELAY = 1 * 60 * 1000L;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.v(TAG, "onCreate()");
+
+        // Get the AlarmManager Service
+        mAlarmManager = (AlarmManager) getActivity().getSystemService(getActivity().getApplicationContext().ALARM_SERVICE);
+
+        // Create an Intent to broadcast to the AlarmNotificationReceiver
+        mNotificationReceiverIntent = new Intent(getActivity(),
+                AlarmNotificationReceiver.class);
+        // Create an PendingIntent that holds the NotificationReceiverIntent
+        mNotificationReceiverPendingIntent = PendingIntent.getBroadcast(
+                getActivity(), 0, mNotificationReceiverIntent, 0);
+
         // Set incoming parameters
         Bundle args = getArguments();
         mode = args.getString("title_tag");
         screen_inclination = args.getBoolean("screen_inclination");
+        rep_timer = args.getBoolean("rep_timer");
 
     }
 
@@ -63,51 +77,101 @@ public class BurningFragment extends Fragment{
         TextView title = (TextView)view.findViewById(R.id.burn_title);
         title.setText(mode);
 
-        toggle = (ToggleButton) view.findViewById(R.id.burn_toggle_btn);
+        //toggle = (ToggleButton) view.findViewById(R.id.burn_toggle_btn);
+        startButton = (Button) view.findViewById(R.id.wo_play);
+        stopButton = (Button) view.findViewById(R.id.wo_stop);
+        stopButton.setClickable(false);
+
         chronometer = (Chronometer) view.findViewById(R.id.burn_chrono_chronometer);
 
-        if(savedInstanceState!=null){
-/*            Toast.makeText(getActivity(),"BURNING-onCreateView(): savedInstanceState no null", Toast.LENGTH_SHORT).show();
+/*        if(savedInstanceState!=null){
+            Toast.makeText(getActivity(),"BURNING-onCreateView(): savedInstanceState no null", Toast.LENGTH_SHORT).show();
             toggle.setChecked(savedInstanceState.getBoolean("toggleButton"));
-            chronometer.setBase(System.currentTimeMillis()-savedInstanceState.getLong("time"));*/
-        }
-        else {
-            toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            chronometer.setBase(System.currentTimeMillis()-savedInstanceState.getLong("time"));
+        }*/
+        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                switch (chronometer.getText().toString()) {
+                    case "01:30":
+                        Toast.makeText(getActivity(), "BEEEP l:30", Toast.LENGTH_LONG).show();
+                        break;
+                    case "02:15":
+                        Toast.makeText(getActivity(), "BEEEP 2:15", Toast.LENGTH_LONG).show();
+                        break;
+                }
+
+            }
+        });
+
+        startButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                chronometer.start();
+
+                if(screen_inclination){
+                    //start polling gyroscope service
+                    Intent i = new Intent(getActivity(), InclinationPollService.class);
+                    getActivity().startService(i);
+                }
+
+                if(rep_timer){
+                    // Set repeating alarm
+                    mAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME,
+                            SystemClock.elapsedRealtime() + INITIAL_ALARM_DELAY,
+                            INITIAL_ALARM_DELAY,
+                            mNotificationReceiverPendingIntent);
+                }
+                startButton.setClickable(false);
+                stopButton.setClickable(true);
+            }
+        });
+        stopButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogFragment();
+            }
+        });
+
+       /* toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                     if (isChecked) {
                         // The toggle is enabled
                         //textView.setText("01:14");
+                        chronometer.setBase(SystemClock.elapsedRealtime());
                         chronometer.start();
-                        //getActivity().startService(service);
 
                         if(screen_inclination){
                             //start polling gyroscope service
                             Intent i = new Intent(getActivity(), InclinationPollService.class);
-                            //Intent service = new Intent(getActivity(), ChronometerService.class);
                             getActivity().startService(i);
+                        }
+
+                        if(rep_timer){
+                            // Set repeating alarm
+                            mAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME,
+                                    SystemClock.elapsedRealtime() + INITIAL_ALARM_DELAY,
+                                    INITIAL_ALARM_DELAY,
+                                    mNotificationReceiverPendingIntent);
                         }
 
 
                     } else {
                         // The toggle is disabled
-                        //textView.setText("1:05:32");
-                        //getActivity().stopService(service);
                         showDialogFragment();
-                        /*if(isAnswer()){
-                            chronometer.stop();
-                            chronometer.setBase(0L);
-                            //stop polling
-                            getActivity().stopService(i);
-                        }*/
+
                     }
 
-                    toggleButton = toggle.isChecked();
-                    Toast.makeText(getActivity(),"BURNING-onCheckedChange(): "+toggleButton, Toast.LENGTH_SHORT).show();
-                }
-            });
-            //ChronometerService.setUpdateListener(this);
-        }
+                toggleButton = toggle.isChecked();
+                Toast.makeText(getActivity(),"BURNING-onCheckedChange(): "+toggleButton, Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
+
+        //ChronometerService.setUpdateListener(this);
+
         return view;
     }
 
@@ -150,22 +214,22 @@ public class BurningFragment extends Fragment{
                 chronometer.stop();
                 Toast.makeText(getActivity(),"FIN CHRONO: "+chronometer.getText(), Toast.LENGTH_SHORT).show();
 
-                chronometer.setBase(SystemClock.elapsedRealtime());
-                //chronometer.setBase(0L);
-
                 if(screen_inclination){
                     //stop polling
                     Intent i = new Intent(getActivity(), InclinationPollService.class);
                     getActivity().stopService(i);
                 }
+                if(rep_timer){
+                    // Cancel all alarms using mNotificationReceiverPendingIntent
+                    mAlarmManager.cancel(mNotificationReceiverPendingIntent);
+                }
+                startButton.setClickable(true);
                 dialog.dismiss();
             }
         });
         dialogButtonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //setAnswer(false);
-                toggle.setChecked(true);
                 dialog.dismiss();
             }
         });

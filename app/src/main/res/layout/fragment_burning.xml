@@ -14,21 +14,31 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:paddingLeft="5dp"/>
-    <ToggleButton
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="0.25"
-        android:layout_margin="10dp"
-        android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal"
-        android:textOn="@string/stop"
-        android:textOff="@string/start"
-        android:id="@+id/burn_toggle_btn"/>
+        android:layout_weight="0.3"
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="20dp"
+                android:background="@drawable/wo_play"
+                android:id="@+id/wo_play"/>
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="20dp"
+                android:background="@drawable/wo_stop"
+                android:id="@+id/wo_stop"/>
+        </LinearLayout>
 
     <Chronometer
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.75"
+        android:layout_weight="0.70"
         android:gravity="center_horizontal"
         android:layout_gravity="center_horizontal"
         android:textSize="80sp"

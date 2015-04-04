@@ -32,6 +32,7 @@ public class MainActivity extends ActionBarActivity
 
     private final String TAG = this.getClass().getSimpleName();
     private boolean screen;
+    private boolean rep_timer;
     private PersonalFragment mPersonalFragment;
     private DashboardFragment mDashboardFragment;
     private BurningFragment mBurningFragment;
@@ -64,8 +65,9 @@ public class MainActivity extends ActionBarActivity
         //Capturar Preferencias de Screen
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         screen = prefs.getBoolean(getString(R.string.pref_active_inclination_key),true);
+        rep_timer = prefs.getBoolean(getString(R.string.pref_active_timer_key),true);
 
-        Toast.makeText(this,"screen pref is: "+screen, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"screen pref is: "+screen, Toast.LENGTH_SHORT).show();
         //////
     }
 
@@ -123,6 +125,7 @@ public class MainActivity extends ActionBarActivity
                     Bundle args = new Bundle();
                     args.putString("title_tag", getResources().getString(R.string.burning_title));
                     args.putBoolean("screen_inclination",screen);
+                    args.putBoolean("rep_timer",rep_timer);
                     mBurningFragment.setArguments(args);
                 }
                 fragmentTransaction.addToBackStack(null);
@@ -137,6 +140,8 @@ public class MainActivity extends ActionBarActivity
                     mPumpingFragment = new BurningFragment();
                     Bundle args = new Bundle();
                     args.putString("title_tag", getResources().getString(R.string.pump_title));
+                    args.putBoolean("screen_inclination",screen);
+                    args.putBoolean("rep_timer",rep_timer);
                     mPumpingFragment.setArguments(args);
                 }
                 fragmentTransaction.addToBackStack(null);
