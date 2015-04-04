@@ -43,8 +43,8 @@ public class BurningFragment extends Fragment{
     private AlarmManager mAlarmManager;
     private Intent mNotificationReceiverIntent;
     private PendingIntent mNotificationReceiverPendingIntent;
-    private static final long INITIAL_ALARM_DELAY = 1 * 60 * 1000L;
-
+    private static final long INITIAL_ALARM_DELAY = 3 * 60 * 1000L;
+    private static final long TEN_MINUTES = 10 * 60 * 1000L;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,19 +77,18 @@ public class BurningFragment extends Fragment{
         TextView title = (TextView)view.findViewById(R.id.burn_title);
         title.setText(mode);
 
-        //toggle = (ToggleButton) view.findViewById(R.id.burn_toggle_btn);
+        chronometer = (Chronometer) view.findViewById(R.id.burn_chrono_chronometer);
+
         startButton = (Button) view.findViewById(R.id.wo_play);
         stopButton = (Button) view.findViewById(R.id.wo_stop);
-        stopButton.setClickable(false);
 
-        chronometer = (Chronometer) view.findViewById(R.id.burn_chrono_chronometer);
 
 /*        if(savedInstanceState!=null){
             Toast.makeText(getActivity(),"BURNING-onCreateView(): savedInstanceState no null", Toast.LENGTH_SHORT).show();
             toggle.setChecked(savedInstanceState.getBoolean("toggleButton"));
             chronometer.setBase(System.currentTimeMillis()-savedInstanceState.getLong("time"));
         }*/
-        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+/*        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
                 switch (chronometer.getText().toString()) {
@@ -102,7 +101,7 @@ public class BurningFragment extends Fragment{
                 }
 
             }
-        });
+        });*/
 
         startButton.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -122,11 +121,17 @@ public class BurningFragment extends Fragment{
                             SystemClock.elapsedRealtime() + INITIAL_ALARM_DELAY,
                             INITIAL_ALARM_DELAY,
                             mNotificationReceiverPendingIntent);
+
                 }
                 startButton.setClickable(false);
+                startButton.setEnabled(false);
                 stopButton.setClickable(true);
+                stopButton.setEnabled(true);
             }
         });
+
+        stopButton.setClickable(false);
+        stopButton.setEnabled(false);
         stopButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,44 +139,7 @@ public class BurningFragment extends Fragment{
             }
         });
 
-       /* toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                    if (isChecked) {
-                        // The toggle is enabled
-                        //textView.setText("01:14");
-                        chronometer.setBase(SystemClock.elapsedRealtime());
-                        chronometer.start();
-
-                        if(screen_inclination){
-                            //start polling gyroscope service
-                            Intent i = new Intent(getActivity(), InclinationPollService.class);
-                            getActivity().startService(i);
-                        }
-
-                        if(rep_timer){
-                            // Set repeating alarm
-                            mAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME,
-                                    SystemClock.elapsedRealtime() + INITIAL_ALARM_DELAY,
-                                    INITIAL_ALARM_DELAY,
-                                    mNotificationReceiverPendingIntent);
-                        }
-
-
-                    } else {
-                        // The toggle is disabled
-                        showDialogFragment();
-
-                    }
-
-                toggleButton = toggle.isChecked();
-                Toast.makeText(getActivity(),"BURNING-onCheckedChange(): "+toggleButton, Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
-
         //ChronometerService.setUpdateListener(this);
-
         return view;
     }
 
@@ -183,15 +151,6 @@ public class BurningFragment extends Fragment{
         outState.putBoolean("toggleButton", toggleButton);
         outState.putLong("time",chronometer.getBase());
     }
-
-/*    public boolean isAnswer() {
-        Toast.makeText(getActivity(),"BURNING-isAnswer(): "+answer, Toast.LENGTH_SHORT).show();
-        return answer;
-    }
-
-    public void setAnswer(boolean answer) {
-        this.answer = answer;
-    }*/
 
     private void showDialogFragment() {
 
@@ -224,6 +183,9 @@ public class BurningFragment extends Fragment{
                     mAlarmManager.cancel(mNotificationReceiverPendingIntent);
                 }
                 startButton.setClickable(true);
+                startButton.setEnabled(true);
+                stopButton.setClickable(false);
+                stopButton.setEnabled(false);
                 dialog.dismiss();
             }
         });
@@ -236,6 +198,7 @@ public class BurningFragment extends Fragment{
 
         dialog.show();
     }
+
 /*    public void actualizarCronometro(long tiempo) {
 
 *//*        chronoText.setText(String.format("%02d:%02d:%02d",

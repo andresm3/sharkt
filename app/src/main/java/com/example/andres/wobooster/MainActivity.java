@@ -92,9 +92,8 @@ public class MainActivity extends ActionBarActivity
             case 1:
                 if(mDashboardFragment == null)
                     mDashboardFragment = new DashboardFragment();
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container, mDashboardFragment,"Dashboard");
-
+                fragmentTransaction.replace(R.id.container, mDashboardFragment, "Dashboard");
+                fragmentTransaction.addToBackStack("Dashboard");
                 fragmentTransaction.commit();
                 // execute transaction now
                 getFragmentManager().executePendingTransactions();
@@ -102,9 +101,8 @@ public class MainActivity extends ActionBarActivity
             case 2:
                 if(mPersonalFragment == null)
                     mPersonalFragment = new PersonalFragment();
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container, mPersonalFragment,"Personal");
-
+                fragmentTransaction.replace(R.id.container, mPersonalFragment, "Personal");
+                fragmentTransaction.addToBackStack("Personal");
                 fragmentTransaction.commit();
                 // execute transaction now
                 getFragmentManager().executePendingTransactions();
@@ -115,9 +113,11 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
+    //Handler implemented for DashboardFragment
     public void onDashItemSelected(int position) {
         FragmentManager fragmentManager = getFragmentManager();//getSupportFragmentManager();
         FragmentTransaction fragmentTransaction =fragmentManager.beginTransaction();
+
         switch (position+1) {
             case 1:
                 if(mBurningFragment == null){
@@ -128,9 +128,8 @@ public class MainActivity extends ActionBarActivity
                     args.putBoolean("rep_timer",rep_timer);
                     mBurningFragment.setArguments(args);
                 }
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container, mBurningFragment,"Burning");
-
+                fragmentTransaction.replace(R.id.container, mBurningFragment, "Burning");
+                fragmentTransaction.addToBackStack("Burning");
                 fragmentTransaction.commit();
                 // execute transaction now
                 getFragmentManager().executePendingTransactions();
@@ -144,18 +143,26 @@ public class MainActivity extends ActionBarActivity
                     args.putBoolean("rep_timer",rep_timer);
                     mPumpingFragment.setArguments(args);
                 }
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container, mPumpingFragment,"Pumping");
-
+                fragmentTransaction.replace(R.id.container, mPumpingFragment, "Pumping");
+                fragmentTransaction.addToBackStack("Pumping");
                 fragmentTransaction.commit();
                 // execute transaction now
                 getFragmentManager().executePendingTransactions();
                 break;
             case 3:
-                Toast.makeText(this, "Seleccion: " + position, Toast.LENGTH_SHORT).show();
+
                 break;
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

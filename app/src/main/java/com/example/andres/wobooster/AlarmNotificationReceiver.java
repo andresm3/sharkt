@@ -53,8 +53,6 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                 notificationBuilder.build());*/
         mp = MediaPlayer.create(ApplicationContextProvider.getContext(), soundURI);
         mp.start();
-
-
     }
 }
 
